@@ -30,4 +30,16 @@ app.get('/organizations', (req, res) => {
     .catch(err => console.log(err));
 });
 
-app.listen(3000, () => console.log('Server listening on port 3000'));
+app.post('/organizations', (req, res) => {
+    orgs
+    .create(req.body.organization)
+    .then((campground, err) => {
+        if (err) {
+            console.log('error');
+        } else {
+            res.sendStatus(200);
+        }
+    });
+})
+
+app.listen(process.env.PORT || 3000, () => console.log(`Server listening on port ${process.env.PORT}`));
