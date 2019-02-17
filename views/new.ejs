@@ -1,0 +1,23 @@
+<% include partials/header.ejs %>
+
+<div class="ui main text container segment">
+    <div class="ui huge header">New Organizations</div>
+    <form action="/api/organizations" method="post" class="ui form">
+        <div class="field">
+            <label>Name</label>
+            <input type="text" name="organization[name]" placeholder="name" required>
+        </div>
+        <div class="field">
+            <label>Location</label>
+            <input type="text" name="organization[Location]" placeholder="Location" required>
+        </div>
+        <div class="field">
+            <label>Tags</label>
+            <input type="text" name="organization[tag]" placeholder="Tags" required>
+        </div>
+        <input type="submit" value="Submit" class="ui basic button">
+    </form>
+</div>
+
+
+<% include partials/footer.ejs %>

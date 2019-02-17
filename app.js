@@ -4,6 +4,8 @@ const   express     = require('express'),
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
+app.set("view engine", "ejs");
+app.use(express.static(__dirname + "/public"));
 
 mongoose
 .connect("mongodb://example:exampleuser123@ds337985.mlab.com:37985/charing", { useNewUrlParser: true })
@@ -27,21 +29,30 @@ const userSchema = new mongoose.Schema({
 const user = mongoose.model("User", userSchema);
 
 app.get('/', (req, res) => {
-    res.send({
-        accept: 200,
-    });
+    res.render('landing');
 });
 
 app.get('/organizations', (req, res) => {
+    orgs.find({})
+    .exec()
+    .then(organizations => res.render('organizations', {organizations: organizations}))
+    .catch(err => console.log(err));
+});
+
+app.get('/organizations/new', (req, res) => {
+    res.render('new');
+})
+
+app.get('/api/organizations', (req, res) => {
     orgs
     .find(req.query ? req.query : {})
     .lean()
     .exec()
-    .then(orgs => res.send(orgs))
+    .then(organizations => res.send(organizations))
     .catch(err => console.log(err));
 });
 
-app.post('/organizations', (req, res) => {
+app.post('/api/organizations', (req, res) => {
     orgs
     .create(req.body.organization)
     .then((organization, err) => {
@@ -49,12 +60,13 @@ app.post('/organizations', (req, res) => {
             console.log('error');
             res.sendStatus(403);
         } else {
-            res.sendStatus(200);
+            res.redirect('/organizations');
+            
         }
     });
 });
 
-app.post('/register', (req, res) => {
+app.post('/api/register', (req, res) => {
     user
     .create(req.body.user)
     .then((user, err) => {
@@ -67,7 +79,7 @@ app.post('/register', (req, res) => {
     });
 });
 
-app.post('/login', (req, res) => {
+app.post('/api/login', (req, res) => {
     user
     .find(req.body.user)
     .then((user, err) => {

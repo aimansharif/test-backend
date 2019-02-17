@@ -1,0 +1,32 @@
+<% include partials/header.ejs %>
+
+<div class="ui main text container">
+    <div class="ui huge header">RESTful Blog App</div>
+    <div class="ui top attached segment">
+        <div class="ui divided items">
+            <% organizations.forEach( organization => { %>
+                <div class="item">
+                    <div class="image">
+                        <img src="" alt="">
+                    </div>
+                    <div class="content">
+                        <a href="/organizations/<%= organization._id %>" class="header"><%= organization.name %></a>
+                        <div class="meta">
+                            <% organization.tag.forEach( tag => { %>
+                                <span><%= tag %></span>
+                            <% }); %>
+                        </div>
+                        <div class="extra">
+                            <a href="/organizations/<%= organization._id %>" class="ui floated basic violet button">
+                                Read More
+                                <i class="right chevron icon"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+
+<% include partials/footer.ejs %>
