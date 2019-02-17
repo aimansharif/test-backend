@@ -44,7 +44,7 @@ app.get('/organizations', (req, res) => {
 app.post('/organizations', (req, res) => {
     orgs
     .create(req.body.organization)
-    .then((campground, err) => {
+    .then((organization, err) => {
         if (err) {
             console.log('error');
             res.sendStatus(403);
@@ -69,15 +69,14 @@ app.post('/register', (req, res) => {
 
 app.post('/login', (req, res) => {
     user
-    .create(req.body.user)
+    .find(req.body.user)
     .then((user, err) => {
         if (err) {
             console.log(err);
             res.sendStatus(403);
         } else {
-            res.send({
-                accept: 200,
-            });
+            console.log(req.body);
+            res.send(user);
         }
     });
 });
