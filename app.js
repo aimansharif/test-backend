@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/organizations', (req, res) => {
     orgs
-    .find({})
+    .find(req.query ? req.query : {})
     .lean()
     .exec()
     .then(orgs => res.send(orgs))
